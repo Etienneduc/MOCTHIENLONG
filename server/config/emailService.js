@@ -1,29 +1,34 @@
 // config/emailService.js
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  host: process.env.BREVO_HOST,
-  port: Number(process.env.BREVO_PORT),
-  secure: false,
-  auth: {
-    user: process.env.BREVO_USER,
-    pass: process.env.BREVO_PASS,
-  },
-});
+import axios from "axios";
 
 export async function sendEmail({ to, subject, html }) {
   try {
-    const info = await transporter.sendMail({
-      from: process.env.BREVO_FROM,
-      to,
-      subject,
-      html,
-    });
+    const response = await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name: "Mộc Thiên Long",
+          email: "9c5e03001@smtp-brevo.com", // 👉 Email Brevo cho phép gửi
+        },
+        to: [{ email: to }],
+        subject,
+        htmlContent: html,
+      },
+      {
+        headers: {
+          "api-key": process.env.BREVO_PASS, // 👉 SMTP key dùng làm API key
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    console.log("📨 Email sent via Brevo:", info.messageId);
+    console.log("📨 Email sent via Brevo API:", response.data);
     return { success: true };
   } catch (error) {
-    console.error("❌ Email send error:", error);
+    console.error(
+      "❌ Email send error:",
+      error.response?.data || error.message
+    );
     return { success: false, error };
   }
 }
