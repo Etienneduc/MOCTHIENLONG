@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import AccountSidebar from "../../components/AccountSidebar";
 import { MyContext } from "../../App";
-import MyListItems from "./MyListItems";
+import MyListItems from "./myListItems";
 import { Link } from "react-router-dom";
 
 const MyList = () => {
