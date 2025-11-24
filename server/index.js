@@ -44,6 +44,7 @@ const allowedOrigins = [
   "https://admin.mocthienlong.shop",
   "https://mocthienlong.netlify.app",
   "https://mocthienlong-admin.vercel.app",
+  "https://relaxed-kitten-d879e4.netlify.app",
 ];
 
 app.use(
